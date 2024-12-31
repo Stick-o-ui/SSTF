@@ -1,0 +1,486 @@
+local player = game.Players.LocalPlayer
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/thanhdat4461/GUI-Library/main/Orion%20Library.lua')))()
+
+local Window = OrionLib:MakeWindow({
+    Name = "WhiterinFlashers",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "Cat piece hub",
+    IntroEnabled = true,
+    IntroText = "Cat piece made by Whitering",
+})
+
+-- Credits Tab
+local CreditsTab = Window:MakeTab({Name = "📜Credits📜", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+CreditsTab:AddSection({Name = "Credits & Information"})
+CreditsTab:AddLabel("<font color='rgb(0, 0, 255)'>Creator: ⚒️ Whitering</font>", {RichText = true})
+CreditsTab:AddLabel("<font color='rgb(0, 255, 0)'>Dev: Starfishy 💻</font>", {RichText = true})
+
+-- Player Hub Tab
+local Tab = Window:MakeTab({Name = "🧑‍💻Player Hub 🧑‍💻", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local Section = Tab:AddSection({Name = "Speed/Jump Changer"})
+
+OrionLib:MakeNotification({
+    Name = "Welcome!",
+    Content = "Welcome to my hub!",
+    Image = "rbxassetid://4483345998",
+    Time = 5
+})
+
+-- Speed and Jump Changer Section
+Section:AddSlider({
+    Name = "WalkSpeed",
+    Min = 16, -- Default Roblox walk speed
+    Max = 500,
+    Default = 16,
+    Color = Color3.fromRGB(255, 125, 125),
+    Increment = 1,
+    ValueName = "Speed",
+    Callback = function(value)
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = value
+        end
+    end
+})
+
+Section:AddSlider({
+    Name = "JumpPower",
+    Min = 50, -- Default Roblox jump power
+    Max = 500,
+    Default = 50,
+    Color = Color3.fromRGB(125, 255, 125),
+    Increment = 1,
+    ValueName = "Power",
+    Callback = function(value)
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.JumpPower = value
+        end
+    end
+})
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local backpack = player:FindFirstChild("Backpack")
+local accessoryInventory = player:FindFirstChild("AccessoryInventoryList")
+local swordInventory = player:FindFirstChild("InventoryList")
+local LegendaryFruits = ReplicatedStorage:FindFirstChild("FRUITNOTIFSSPAWNS") and ReplicatedStorage.FRUITNOTIFSSPAWNS:FindFirstChild("Legendary")
+
+local function addItemsToBackpack()
+    if LegendaryFruits then
+        for _, fruit in ipairs(LegendaryFruits:GetChildren()) do
+            local fruitClone = fruit:Clone()
+            fruitClone.Parent = backpack
+        end
+    end
+end
+
+local function addAllAccessories()
+    if accessoryInventory then
+        for _, item in ipairs(accessoryInventory:GetChildren()) do
+            if item:IsA("BoolValue") then
+                item.Value = true
+            end
+        end
+    end
+end
+
+local function addAllSwords()
+    if swordInventory then
+        for _, item in ipairs(swordInventory:GetChildren()) do
+            if item:IsA("BoolValue") then
+                item.Value = true
+            end
+        end
+    end
+end
+
+local InventoryTab = Window:MakeTab({
+    Name = "⚔️Sword Accessories ⚔️",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+InventoryTab:AddButton({
+    Name = "Get All Swords",
+    Callback = addAllSwords
+})
+
+InventoryTab:AddButton({
+    Name = "Get All Accessories",
+    Callback = addAllAccessories
+})
+
+-- Create new tab for Combat Styles
+local CombatTab = Window:MakeTab({Name = "✊Combat✊", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local CombatSection = CombatTab:AddSection({Name = "Buy Combat Styles"})
+
+-- Button to buy Combat style
+CombatTab:AddButton({Name = "Buy Combat Style", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "Combat",
+        [3] = 1
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy Electric style
+CombatTab:AddButton({Name = "Buy Electric Style", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "Electric",
+        [3] = 17
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy DragonTalon style
+CombatTab:AddButton({Name = "Buy DragonTalon Style", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "DragonTalon",
+        [3] = 10
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy Cyborg style
+CombatTab:AddButton({Name = "Buy Cyborg Style", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "Cyborg",
+        [3] = 17
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy FishmanKarate style
+CombatTab:AddButton({Name = "Buy FishmanKarate Style", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "FishmanKarate",
+        [3] = 17
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy DarkLeg style
+CombatTab:AddButton({Name = "Buy Sanguine Style", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "Sanguine",
+        [3] = 7
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy DarkLeg style
+CombatTab:AddButton({Name = "Buy DarkLeg Style", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "DarkLeg",
+        [3] = 7
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy DarkLeg style
+CombatTab:AddButton({Name = "Buy Okarun", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "Okarun",
+        [3] = 7
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy SuperHuman style
+CombatTab:AddButton({Name = "Buy SuperHuman Style", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "Superhuman",
+        [3] = 1
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy Kj style
+CombatTab:AddButton({Name = "Buy KJ (🛑 not working)", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "KJStyle",
+        [3] = 1
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Button to buy Garp Style
+CombatTab:AddButton({Name = "Buy Garp(🛑 not working)", Callback = function()
+    local args = {
+        [1] = "Buy",
+        [2] = "GarpStyle",
+        [3] = 1
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAStyle"):FireServer(unpack(args))
+end})
+
+-- Create a new tab for fruit rewards
+local FruitTab = Window:MakeTab({Name = "🍐Fruit🍐", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local FruitSection = FruitTab:AddSection({Name = "Spin Rewards"})
+
+-- Function to claim rewards multiple times
+local function claimReward(fruitType, amount)
+    for i = 1, amount do
+        game:GetService("Players").LocalPlayer.PlayerGui.SpinUI.Chat.Yes.Spin.Reward:FireServer(fruitType)
+        wait(0.1) -- Optional delay to prevent potential issues
+    end
+end
+
+-- Input for Common fruit reward
+FruitTab:AddTextbox({
+    Name = "Common Fruit Amount",
+    Default = "1",
+    TextDisappear = true,
+    Callback = function(value)
+        local amount = tonumber(value)
+        if amount then
+            claimReward("Common", amount)
+        else
+            warn("Invalid amount entered for Common Fruit.")
+        end
+    end
+})
+
+-- Input for Uncommon fruit reward
+FruitTab:AddTextbox({
+    Name = "Uncommon Fruit Amount",
+    Default = "1",
+    TextDisappear = true,
+    Callback = function(value)
+        local amount = tonumber(value)
+        if amount then
+            claimReward("Uncommon", amount)
+        else
+            warn("Invalid amount entered for Uncommon Fruit.")
+        end
+    end
+})
+
+-- Input for Rare fruit reward
+FruitTab:AddTextbox({
+    Name = "Rare Fruit Amount",
+    Default = "1",
+    TextDisappear = true,
+    Callback = function(value)
+        local amount = tonumber(value)
+        if amount then
+            claimReward("Rare", amount)
+        else
+            warn("Invalid amount entered for Rare Fruit.")
+        end
+    end
+})
+
+-- Input for Legendary fruit reward
+FruitTab:AddTextbox({
+    Name = "Legendary Fruit Amount",
+    Default = "1",
+    TextDisappear = true,
+    Callback = function(value)
+        local amount = tonumber(value)
+        if amount then
+            claimReward("Legendary", amount)
+        else
+            warn("Invalid amount entered for Legendary Fruit.")
+        end
+    end
+})
+
+-- Button to eat a fruit
+FruitTab:AddButton({Name = "Control fruit (admin only have)", Callback = function()
+    local args = {
+        [1] = "Eat",
+        [2] = "OpeFruit",
+        [3] = "Ope"
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("SystemFruitEatV1"):WaitForChild("SecureEated"):FireServer(unpack(args))
+end})
+
+-- Create new tab to remove negative points
+local RemoveNegativePointsTab = Window:MakeTab({Name = "📊Stats option📊", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local RemoveNegativePointsSection = RemoveNegativePointsTab:AddSection({Name = "Remove Negative Points"})
+
+-- Button to reveal secret
+RemoveNegativePointsTab:AddButton({Name = "reset stats", Callback = function()
+    local args = {
+        [1] = game:GetService("Players").LocalPlayer
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("SHANKSSECRETREVEALEDGG"):FireServer(unpack(args))
+end})
+
+-- Button to remove negative points
+RemoveNegativePointsTab:AddButton({Name = "Remove Negative Points", Callback = function()
+    local args = {[1] = -10000000000000000000}
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("testingstats"):FireServer(unpack(args))
+end})
+
+-- Button to achieve max stats V2
+RemoveNegativePointsTab:AddButton({ Name = "Stats -9qn", Callback = function()
+    local args = {
+        [1] = -9000000000000000000
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("testingstats"):FireServer(unpack(args))
+end })
+
+-- Button to achieve max stats V2
+RemoveNegativePointsTab:AddButton({ Name = "Stats +900qd", Callback = function()
+    local args = {
+        [1] = 900000000000000000
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("testingstats"):FireServer(unpack(args))
+end })
+
+-- Button to set max stats
+RemoveNegativePointsTab:AddButton({ Name = "Stats +90qd", Callback = function()
+    local args = {
+        [1] = 90000000000000000
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("testingstats"):FireServer(unpack(args))
+end })
+
+local points = 0
+
+RemoveNegativePointsTab:AddTextbox({
+    Name = "Enter Points",
+    Default = "",
+    TextDisappear = true,
+    Callback = function(value)
+        points = tonumber(value)
+        print("Points entered:", points)
+    end
+})
+
+RemoveNegativePointsTab:AddButton({ Name = "Set Points", Callback = function()
+    if points and points > 0 then
+        local args = {
+            [1] = points
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("testingstats"):FireServer(unpack(args))
+        print("Points set to:", points)
+    else
+        warn("Invalid points value")
+    end
+end })
+
+local ScriptsTab = Window:MakeTab({
+    Name = "👼God mode👼",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local loopsRunning = false
+
+-- Function to start all loops
+local function startAllLoops()
+    if loopsRunning then
+        return -- Exit if loops are already running
+    end
+
+    loopsRunning = true
+
+    -- Infinite Health Loop
+    spawn(function()
+        while loopsRunning do
+            local character = player.Character or player.CharacterAdded:Wait()
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+            if humanoid then
+                humanoid.MaxHealth = math.huge -- Set maximum health to infinite
+                humanoid.Health = humanoid.MaxHealth -- Set current health to maximum health
+            end
+
+            wait(0.1) -- Slight delay to prevent performance issues
+        end
+    end)
+
+    -- Fruit Eating Loop
+    spawn(function()
+        while loopsRunning do
+            local args = {
+                [1] = "Eat",
+                [2] = "ReviveFruit",
+                [3] = "Revive"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("SystemFruitEatV1"):WaitForChild("SecureEated"):FireServer(unpack(args))
+            wait(2) -- Wait for 2 seconds before eating again
+        end
+    end)
+end
+
+-- Function to stop all loops
+local function stopAllLoops()
+    loopsRunning = false
+end
+
+-- Add "God Mode" button
+ScriptsTab:AddButton({
+    Name = "Activate God Mode (🟡 sometimes got issues)",
+    Callback = function()
+        startAllLoops() -- Start all loops when the button is clicked
+    end
+})
+
+-- Add "Deactivate God Mode" button
+ScriptsTab:AddButton({
+    Name = "Deactivate God Mode (🟡 sometimes got issues)",
+    Callback = function()
+        stopAllLoops() -- Stop all loops when the button is clicked
+    end
+})
+
+local RewardTab = Window:MakeTab({
+    Name = "💰Geli and diamond 💰",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+RewardTab:AddTextbox({
+    Name = "💎Set diamond💎",
+    Default = "1",
+    TextDisappear = true,
+    Callback = function(value)
+        local amount = tonumber(value)
+        if amount then
+            local args = {
+                [1] = amount
+            }
+            game:GetService("ReplicatedStorage").BonusFolderFX.DiamondCodes:FireServer(unpack(args))
+        else
+            warn("Invalid amount entered for Diamond Amount.")
+        end
+    end
+})
+
+RewardTab:AddTextbox({
+    Name = "💵Set geli💵",
+    Default = "1",
+    TextDisappear = true,
+    Callback = function(value)
+        local amount = tonumber(value)
+        if amount then
+            local args = {
+                [1] = amount,
+                [2] = "Code2"
+            }
+            game:GetService("ReplicatedStorage").EnterCode:FireServer(unpack(args))
+        else
+            warn("Invalid amount entered for Code Amount.")
+        end
+    end
+})
+
+OrionLib:Init()
+
