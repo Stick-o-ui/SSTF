@@ -1,4 +1,4 @@
-local player = game.Players.LocalPlayer
+    local player = game.Players.LocalPlayer
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/thanhdat4461/GUI-Library/main/Orion%20Library.lua')))()
 
 local Window = OrionLib:MakeWindow({
