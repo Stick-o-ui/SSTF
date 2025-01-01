@@ -106,6 +106,50 @@ InventoryTab:AddButton({
     Callback = addAllAccessories
 })
 
+-- Button to get all swords
+InventoryTab:AddButton({Name = "Get All Swords", Callback = function()
+    local swords = {
+        "ONEYEARSWORD", "Saber", "BlueScythe", "SaberV2", "MoltSword", "TripleYoru",
+        "BattleAxe", "StrongSpear", "ColdSword", "EggSword", "BattleHammer",
+        "RedScythe", "Katana", "DualKatana", "TripleKatana", "Kiribachi",
+        "TimeSword", "FlameSword", "CatClaw", "Blaster777", "FrozenKatana",
+        "RedKatana", "BlueKatana", "GreenKatana", "Bisento", "AceCutlass",
+        "Hassaikai", "Napoleon", "Yoru", "YoruVersion2", "Guitar", "CrocoHook",
+        "StickyStuff", "GravitySword", "CandyCane", "KamishDagger", "MoltenSword",
+        "GojoSword", "Kikoku", "ChristmasKatana", "GreenKatana", "Pole", "StickyStaff", "ChristmasScythe", "BlueCandyCane", "TrueTripleKatana"
+    }
+
+    for _, sword in ipairs(swords) do
+        local args = {
+            [1] = "Buy",
+            [2] = sword,
+            [3] = 0
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughASword"):FireServer(unpack(args))
+    end
+end})
+
+-- Button to get all accessories
+InventoryTab:AddButton({Name = "Get All Accessories", Callback = function()
+    local accessories = {
+        "Cat", "StrawHat", "KiddCape", "LucyHelmet", "KizaruCape", "PirateKingCape",
+        "KaidoCape", "BigMomHat", "MihawkHat", "PinkCatHat", "BlackCatHat",
+        "BlueCatHat", "DaValkyrieHelm", "SerpentValk", "SantaHat", "BraveHat",
+        "Top10Hat", "The2023Cape", "Eggwings", "Specialchristmashat", "Megachristmashat",
+        "Snowmantophatred", "Snowmantophatgreen", "StrongShield", "WarpHat", "LawHat", "FirstToSeaTwoHat", "DoflamingoCape", "ShanksCape", "HistoricalCape", "CandyCaneHat", "ChristmasAntlers", "SnowmanTopHat", "SnowmanTopHatRed", "MegaChristmasHat", "SpecialChristmasHat", "THE2023Cape", "EggWings", "FirstToSeaThreeHat", "PinkCatCape", "BlueCatCape", "BlackCatCape", "None"
+    }
+
+    for _, accessory in ipairs(accessories) do
+        local args = {
+            [1] = "Buy",
+            [2] = "Diamond",
+            [3] = accessory,
+            [4] = 0
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("BonusFolderFX"):WaitForChild("BoughAAccessory"):FireServer(unpack(args))
+    end
+end})
+
 -- Create new tab for Combat Styles
 local CombatTab = Window:MakeTab({Name = "✊Combat✊", Icon = "rbxassetid://4483345998", PremiumOnly = false})
 local CombatSection = CombatTab:AddSection({Name = "Buy Combat Styles"})
@@ -471,6 +515,80 @@ RewardTab:AddTextbox({
             game:GetService("ReplicatedStorage").EnterCode:FireServer(unpack(args))
         else
             warn("Invalid amount entered for Code Amount.")
+        end
+    end
+})
+
+-- Auto Farm Feature
+local attackedNPCs = {}
+local autoAttackEnabled = false
+
+local function findAllNPCs()
+    local npcs = {}
+    for _, npc in pairs(workspace:GetDescendants()) do
+        if npc:FindFirstChild("Humanoid") and npc:FindFirstChild("HumanoidRootPart") and npc:IsA("Model") then
+            if npc.Humanoid.Health > 0 then
+                table.insert(npcs, npc)
+            end
+        end
+    end
+    return npcs
+end
+
+local function attackNPC(npc)
+    if not attackedNPCs[npc] then
+        attackedNPCs[npc] = true
+        local targetPosition = npc.HumanoidRootPart.Position
+        local args = {
+            [1] = CFrame.new(targetPosition),
+            [2] = 700
+        }
+        game:GetService("Players").LocalPlayer.Character.Warp.m1.Fire:FireServer(unpack(args))
+        print("Attacked NPC:", npc.Name)
+    end
+end
+
+local function attackAllNPCsOnce()
+    local npcs = findAllNPCs()
+    for _, npc in pairs(npcs) do
+        if npc:FindFirstChild("HumanoidRootPart") and npc.Humanoid.Health > 0 then
+            attackNPC(npc)
+        end
+    end
+end
+
+local function resetAttackedNPCs()
+    for npc, _ in pairs(attackedNPCs) do
+        if npc.Humanoid.Health <= 0 then
+            attackedNPCs[npc] = nil
+        end
+    end
+end
+
+game:GetService("RunService").Heartbeat:Connect(resetAttackedNPCs)
+
+local function toggleAutoAttack()
+    if autoAttackEnabled then
+        while autoAttackEnabled do
+            attackAllNPCsOnce()
+            wait(3)
+        end
+    end
+end
+
+local AutoAttackTab = Window:MakeTab({
+    Name = "auto farm ",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+}) 
+
+AutoAttackTab:AddToggle({
+    Name = "Enable Auto farm WARP FRUIT (Every 3s)",
+    Default = false,
+    Callback = function(value)
+        autoAttackEnabled = value
+        if value then
+            toggleAutoAttack()
         end
     end
 })
