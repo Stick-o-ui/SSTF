@@ -107,7 +107,7 @@ InventoryTab:AddButton({
 })
 
 -- Button to get all swords
-InventoryTab:AddButton({Name = "Get All Swords", Callback = function()
+InventoryTab:AddButton({Name = "Get All Swords (permanent)", Callback = function()
     local swords = {
         "ONEYEARSWORD", "Saber", "BlueScythe", "SaberV2", "MoltSword", "TripleYoru",
         "BattleAxe", "StrongSpear", "ColdSword", "EggSword", "BattleHammer",
@@ -130,7 +130,7 @@ InventoryTab:AddButton({Name = "Get All Swords", Callback = function()
 end})
 
 -- Button to get all accessories
-InventoryTab:AddButton({Name = "Get All Accessories", Callback = function()
+InventoryTab:AddButton({Name = "Get All Accessories(Permanent)", Callback = function()
     local accessories = {
         "Cat", "StrawHat", "KiddCape", "LucyHelmet", "KizaruCape", "PirateKingCape",
         "KaidoCape", "BigMomHat", "MihawkHat", "PinkCatHat", "BlackCatHat",
