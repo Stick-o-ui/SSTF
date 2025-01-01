@@ -1,4 +1,161 @@
-local player = game.Players.LocalPlayer
+-- MADE BY DEVIN
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+-- Hardcoded key
+local validKey = "DuolingoLessons" -- Replace this with your actual key
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.CoreGui
+
+-- Create Frame (Background)
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 400, 0, 250)
+frame.Position = UDim2.new(0.5, -200, 0.5, -125)
+frame.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+-- Add UI Corner (rounded corners)
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 10)
+uiCorner.Parent = frame
+
+-- Create Title Label
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "whiterin key system"-- Put your script hub name here
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 24
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Parent = frame
+
+-- Create TextBox (Key Input)
+local keyBox = Instance.new("TextBox")
+keyBox.Size = UDim2.new(0.8, 0, 0.2, 0)
+keyBox.Position = UDim2.new(0.1, 0, 0.3, 0)
+keyBox.PlaceholderText = "Insert Key Here"
+keyBox.Font = Enum.Font.Gotham
+keyBox.TextSize = 18
+keyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyBox.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+keyBox.BorderSizePixel = 0
+keyBox.Parent = frame
+
+-- Add UI Corner to the TextBox
+local uiCornerTextBox = Instance.new("UICorner")
+uiCornerTextBox.CornerRadius = UDim.new(0, 5)
+uiCornerTextBox.Parent = keyBox
+
+-- Create Button (Get Key)
+local getKeyButton = Instance.new("TextButton")
+getKeyButton.Size = UDim2.new(0.8, 0, 0.15, 0)
+getKeyButton.Position = UDim2.new(0.1, 0, 0.55, 0)
+getKeyButton.Text = "Get Key"
+getKeyButton.Font = Enum.Font.GothamBold
+getKeyButton.TextSize = 18
+getKeyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+getKeyButton.BackgroundColor3 = Color3.fromRGB(0, 122, 204)
+getKeyButton.BorderSizePixel = 0
+getKeyButton.Parent = frame
+
+-- Add UI Corner to the Get Key Button
+local uiCornerGetKey = Instance.new("UICorner")
+uiCornerGetKey.CornerRadius = UDim.new(0, 5)
+uiCornerGetKey.Parent = getKeyButton
+
+-- Create Button (Check Key)
+local checkButton = Instance.new("TextButton")
+checkButton.Size = UDim2.new(0.8, 0, 0.15, 0)
+checkButton.Position = UDim2.new(0.1, 0, 0.75, 0)
+checkButton.Text = "Check Key"
+checkButton.Font = Enum.Font.GothamBold
+checkButton.TextSize = 18
+checkButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+checkButton.BackgroundColor3 = Color3.fromRGB(0, 122, 204)
+checkButton.BorderSizePixel = 0
+checkButton.Parent = frame
+
+-- Add UI Corner to the Check Key Button
+local uiCornerCheckKey = Instance.new("UICorner")
+uiCornerCheckKey.CornerRadius = UDim.new(0, 5)
+uiCornerCheckKey.Parent = checkButton
+
+-- Function to make the frame draggable
+local function makeDraggable(gui)
+    local dragInput, dragStart, startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    gui.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragInput = input
+            dragStart = input.Position
+            startPos = gui.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragInput = nil
+                end
+            end)
+        end
+    end)
+
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput then
+            update(input)
+        end
+    end)
+end
+
+-- Make the main frame draggable
+makeDraggable(frame)
+
+-- Function to move and shrink the frame
+local function vanishAndShrink(callback)
+    -- Move the frame to the center
+    local moveTween = TweenService:Create(frame, TweenInfo.new(0.5), {Position = UDim2.new(0.5, -50, 0.5, -50)})
+    moveTween:Play()
+    
+    -- Fade out the text
+    local fadeOutTween = TweenService:Create(titleLabel, TweenInfo.new(0.5), {TextTransparency = 1})
+    fadeOutTween:Play()
+    local fadeOutTextBox = TweenService:Create(keyBox, TweenInfo.new(0.5), {TextTransparency = 1})
+    fadeOutTextBox:Play()
+    local fadeOutButton = TweenService:Create(checkButton, TweenInfo.new(0.5), {TextTransparency = 1})
+    fadeOutButton:Play()
+    local fadeOutGetKeyButton = TweenService:Create(getKeyButton, TweenInfo.new(0.5), {TextTransparency = 1})
+    fadeOutGetKeyButton:Play()
+    
+    -- Wait until the move and fade-out are complete
+    moveTween.Completed:Connect(function()
+        -- Shrink the frame
+        local shrinkTween = TweenService:Create(frame, TweenInfo.new(0.5), {Size = UDim2.new(0, 0, 0, 0)})
+        shrinkTween:Play()
+        shrinkTween.Completed:Connect(function()
+            -- Execute the callback function after shrinking
+            if callback then
+                callback()
+            end
+        end)
+    end)
+end
+
+-- Function to handle the key check
+checkButton.MouseButton1Click:Connect(function()
+    local key = keyBox.Text
+    
+    if key == validKey then
+        -- Vanish and shrink the frame, then execute the script
+        vanishAndShrink(function()
+        
+        local player = game.Players.LocalPlayer
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/thanhdat4461/GUI-Library/main/Orion%20Library.lua')))()
 
 local Window = OrionLib:MakeWindow({
@@ -18,7 +175,7 @@ CreditsTab:AddLabel("<font color='rgb(0, 255, 0)'>Dev: Starfishy 💻</font>", {
 
 -- Player Hub Tab
 local Tab = Window:MakeTab({Name = "🧑‍💻Player Hub 🧑‍💻", Icon = "rbxassetid://4483345998", PremiumOnly = false})
-local Section = Tab:AddSection({Name = "Speed/Jump Changer"})
+local Section = Tab:({Name = "Speed/Jump Changer"})
 
 OrionLib:MakeNotification({
     Name = "Welcome!",
@@ -484,3 +641,15 @@ RewardTab:AddTextbox({
 
 OrionLib:Init()
 
+                    -- Execute your script here
+            -- Add your script or function call here
+        end)
+    else
+        
+    end
+end)
+
+-- Function to open the key link (Optional)
+getKeyButton.MouseButton1Click:Connect(function()
+    setclipboard("https://discord.gg/j5QFVwxu") -- Update as needed
+        end)
