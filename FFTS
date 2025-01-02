@@ -762,5 +762,5 @@ end)
 
 -- Function to open the key link (Optional)
 getKeyButton.MouseButton1Click:Connect(function()
-    setclipboard("https://discord.gg/j5QFVwxu") -- Update as needed
+    setclipboard("https://discord.gg/YEFbkycV") -- Update as needed
         end)
