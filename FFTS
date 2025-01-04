@@ -2,7 +2,7 @@
 local whitelist = {
     2825133720, -- Replace with allowed UserIds
     7734505704, -- Add more UserIds as needed
-    87654321 -- Add more UserIds as needed
+    4101398805 -- Add more UserIds as needed
 }
 
 -- Function to check if a player is whitelisted
