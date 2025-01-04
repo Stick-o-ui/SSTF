@@ -29,7 +29,7 @@ if player then
 
     -- Check whitelist and kick if not allowed
     if not isWhitelisted(player.UserId) then
-        player:Kick("This nigger lol. Don't try using tester scripts!")
+        player:Kick("YOUR NOT WHITELIST DM STARFISHY FOR WHITELIST SYSTEM!")
         return -- Ensure the rest of the script doesn't run
     end
 end
