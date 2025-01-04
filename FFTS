@@ -1,6 +1,6 @@
 -- Whitelist System
 local whitelist = {
-    734505704, -- Replace with allowed UserIds
+    2825133720, -- Replace with allowed UserIds
     7734505704, -- Add more UserIds as needed
     87654321 -- Add more UserIds as needed
 }
