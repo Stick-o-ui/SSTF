@@ -29,13 +29,14 @@ if player then
 
     -- Check whitelist and kick if not allowed
     if not isWhitelisted(player.UserId) then
-        player:Kick("Chat starfishy to get key system")
+        player:Kick("This nigger lol. Don't try using tester scripts!")
         return -- Ensure the rest of the script doesn't run
     end
 end
 
 -- Load Orion Library and GUI
 local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/thanhdat4461/GUI-Library/main/Orion%20Library.lua'))()
+local player = game.Players.LocalPlayer -- Define the player
 
 local Window = OrionLib:MakeWindow({
     Name = "WhiterinFlashers",
@@ -64,7 +65,7 @@ local PlayerTab = Window:MakeTab({
 })
 local SpeedSection = PlayerTab:AddSection({Name = "Speed/Jump Changer"})
 
--- Speed and Jump Changer Section
+-- Speed Slider
 SpeedSection:AddSlider({
     Name = "WalkSpeed",
     Min = 16,
@@ -82,6 +83,7 @@ SpeedSection:AddSlider({
     end
 })
 
+-- Jump Power Slider
 SpeedSection:AddSlider({
     Name = "JumpPower",
     Min = 50,
@@ -106,36 +108,34 @@ local function rainbowText(textLabel)
     local hue = 0
     while textLabel and textLabel.Parent do
         textLabel.TextColor3 = Color3.fromHSV(hue, 1, 1)
-        hue = hue + 0.01
-        if hue > 1 then
-            hue = 0
-        end
+        hue = (hue + 0.01) % 1
         task.wait(0.05)
     end
 end
 
 local function fetchStats(targetPlayer)
     local statFolder = targetPlayer:FindFirstChild("Stat")
-    if not statFolder then
-        return {
-            durability = "N/A",
-            fruit = "N/A",
-            sword = "N/A",
-            combat = "N/A",
-            gold = "N/A",
-            levels = "N/A",
-            gem = "N/A",
-        }
+    local health = "N/A"
+    local maxHealth = "N/A"
+    
+    if targetPlayer.Character then
+        local humanoid = targetPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            health = math.floor(humanoid.Health)
+            maxHealth = math.floor(humanoid.MaxHealth)
+        end
     end
 
     return {
-        durability = statFolder:FindFirstChild("HealthP") and statFolder.HealthP.Value or "N/A",
-        fruit = statFolder:FindFirstChild("DevilFruitP") and statFolder.DevilFruitP.Value or "N/A",
-        sword = statFolder:FindFirstChild("SwordP") and statFolder.SwordP.Value or "N/A",
-        combat = statFolder:FindFirstChild("MeleeP") and statFolder.MeleeP.Value or "N/A",
-        gold = statFolder:FindFirstChild("Gold") and statFolder.Gold.Value or "N/A",
-        levels = statFolder:FindFirstChild("Levels") and statFolder.Levels.Value or "N/A",
-        gem = statFolder:FindFirstChild("Gem") and statFolder.Gem.Value or "N/A",
+        durability = statFolder and statFolder:FindFirstChild("HealthP") and statFolder.HealthP.Value or "N/A",
+        fruit = statFolder and statFolder:FindFirstChild("DevilFruitP") and statFolder.DevilFruitP.Value or "N/A",
+        sword = statFolder and statFolder:FindFirstChild("SwordP") and statFolder.SwordP.Value or "N/A",
+        combat = statFolder and statFolder:FindFirstChild("MeleeP") and statFolder.MeleeP.Value or "N/A",
+        gold = statFolder and statFolder:FindFirstChild("Gold") and statFolder.Gold.Value or "N/A",
+        levels = statFolder and statFolder:FindFirstChild("Levels") and statFolder.Levels.Value or "N/A",
+        gem = statFolder and statFolder:FindFirstChild("Gem") and statFolder.Gem.Value or "N/A",
+        health = health,
+        maxHealth = maxHealth,
     }
 end
 
@@ -166,15 +166,19 @@ local function createESP(targetPlayer)
     end)
 
     local function updateESP()
-        if not character:FindFirstChild("HumanoidRootPart") or not character:FindFirstChild("Humanoid") then return end
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        local humanoid = character:FindFirstChild("Humanoid")
+        if not humanoidRootPart or not humanoid then return end
 
         local localPlayer = game.Players.LocalPlayer
-        local distance = (character.HumanoidRootPart.Position - localPlayer.Character.HumanoidRootPart.Position).Magnitude
+        local distance = (humanoidRootPart.Position - localPlayer.Character.HumanoidRootPart.Position).Magnitude
         local stats = fetchStats(targetPlayer)
 
         label.Text = string.format(
-            "<b>%s</b>\nDistance: %d studs\n<font color='rgb(0,0,255)'>Gem: %s</font>\n<font color='rgb(255,255,0)'>Gold: %s</font>\n<font color='rgb(0,255,0)'>Levels: %s</font>\n<font color='rgb(255,165,0)'>Fruit: %s</font>\n<font color='rgb(255,165,0)'>Sword: %s</font>\n<font color='rgb(255,165,0)'>Combat: %s</font>\n<font color='rgb(255,165,0)'>Durability: %s</font>",
+            "<b>%s</b>\nHealth: %d/%d\nDistance: %d studs\n<font color='rgb(0,0,255)'>Gem: %s</font>\n<font color='rgb(255,255,0)'>Gold: %s</font>\n<font color='rgb(0,255,0)'>Levels: %s</font>\n<font color='rgb(255,165,0)'>Fruit: %s</font>\n<font color='rgb(255,165,0)'>Sword: %s</font>\n<font color='rgb(255,165,0)'>Combat: %s</font>\n<font color='rgb(255,165,0)'>Durability: %s</font>",
             targetPlayer.Name,
+            stats.health,
+            stats.maxHealth,
             math.floor(distance),
             stats.gem,
             stats.gold,
@@ -231,7 +235,7 @@ local function stopESP()
 end
 
 ESPSection:AddButton({
-    Name = "Enable ESP",
+    Name = "👁️ESP 👁️",
     Callback = function()
         enableESP()
         OrionLib:MakeNotification({
@@ -244,7 +248,7 @@ ESPSection:AddButton({
 })
 
 ESPSection:AddButton({
-    Name = "Stop ESP",
+    Name = "👁️Stop ESP👁️",
     Callback = function()
         stopESP()
     end
@@ -302,7 +306,7 @@ InventoryTab:AddButton({
 })
 
 -- Button to get all swords
-InventoryTab:AddButton({Name = "Get All Swords", Callback = function()
+InventoryTab:AddButton({Name = "Get All Swords (permanent)", Callback = function()
     local swords = {
         "ONEYEARSWORD", "Saber", "BlueScythe", "SaberV2", "MoltSword", "TripleYoru",
         "BattleAxe", "StrongSpear", "ColdSword", "EggSword", "BattleHammer",
@@ -325,7 +329,7 @@ InventoryTab:AddButton({Name = "Get All Swords", Callback = function()
 end})
 
 -- Button to get all accessories
-InventoryTab:AddButton({Name = "Get All Accessories", Callback = function()
+InventoryTab:AddButton({Name = "Get All Accessories (permanent)", Callback = function()
     local accessories = {
         "Cat", "StrawHat", "KiddCape", "LucyHelmet", "KizaruCape", "PirateKingCape",
         "KaidoCape", "BigMomHat", "MihawkHat", "PinkCatHat", "BlackCatHat",
