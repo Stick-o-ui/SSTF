@@ -18,7 +18,8 @@ local whitelist = {
     3876675193,
     7609196967,
     6134829432,
-    39749129
+    4547524142,
+    5462556528
 }
 
 -- Function to check if a player is whitelisted
