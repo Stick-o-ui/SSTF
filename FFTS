@@ -342,7 +342,7 @@ InventoryTab:AddButton({Name = "Get All Swords (permanent)", Callback = function
         "RedKatana", "BlueKatana", "GreenKatana", "Bisento", "AceCutlass",
         "Hassaikai", "Napoleon", "Yoru", "YoruVersion2", "Guitar", "CrocoHook",
         "StickyStuff", "GravitySword", "CandyCane", "KamishDagger", "MoltenSword",
-        "GojoSword", "Kikoku", "ChristmasKatana", "GreenKatana", "Pole", "StickyStaff", "ChristmasScythe", "BlueCandyCane", "TrueTripleKatana"
+        "GojoSword", "Kikoku", "ChristmasKatana", "GreenKatana", "Pole", "StickyStaff", "ChristmasScythe", "BlueCandyCane", "TrueTripleKatana", "LoveSword", "SungSword"
     }
 
     for _, sword in ipairs(swords) do
