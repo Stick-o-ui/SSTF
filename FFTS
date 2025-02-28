@@ -346,7 +346,7 @@ InventoryTab:AddButton({Name = "Get All Swords (permanent)", Callback = function
         "RedKatana", "BlueKatana", "GreenKatana", "Bisento", "AceCutlass",
         "Hassaikai", "Napoleon", "Yoru", "YoruVersion2", "Guitar", "CrocoHook",
         "StickyStuff", "GravitySword", "CandyCane", "KamishDagger", "MoltenSword",
-        "GojoSword", "Kikoku", "ChristmasKatana", "GreenKatana", "Pole", "StickyStaff", "ChristmasScythe", "BlueCandyCane", "TrueTripleKatana", "LoveSword", "SungSword"
+        "GojoSword", "Kikoku", "ChristmasKatana", "GreenKatana", "Pole", "StickyStaff", "ChristmasScythe", "BlueCandyCane", "TrueTripleKatana", "LoveSword", "SungSword", "VenomFang"
     }
 
     for _, sword in ipairs(swords) do
@@ -366,7 +366,7 @@ InventoryTab:AddButton({Name = "Get All Accessories (permanent)", Callback = fun
         "KaidoCape", "BigMomHat", "MihawkHat", "PinkCatHat", "BlackCatHat",
         "BlueCatHat", "DaValkyrieHelm", "SerpentValk", "SantaHat", "BraveHat",
         "Top10Hat", "The2023Cape", "Eggwings", "Specialchristmashat", "Megachristmashat",
-        "Snowmantophatred", "Snowmantophatgreen", "StrongShield", "WarpHat", "LawHat", "FirstToSeaTwoHat", "DoflamingoCape", "ShanksCape", "HistoricalCape", "CandyCaneHat", "ChristmasAntlers", "SnowmanTopHat", "SnowmanTopHatRed", "MegaChristmasHat", "SpecialChristmasHat", "THE2023Cape", "EggWings", "FirstToSeaThreeHat", "PinkCatCape", "BlueCatCape", "BlackCatCape", "None"
+        "Snowmantophatred", "Snowmantophatgreen", "StrongShield", "WarpHat", "LawHat", "FirstToSeaTwoHat", "DoflamingoCape", "ShanksCape", "HistoricalCape", "CandyCaneHat", "ChristmasAntlers", "SnowmanTopHat", "SnowmanTopHatRed", "MegaChristmasHat", "SpecialChristmasHat", "THE2023Cape", "EggWings", "FirstToSeaThreeHat", "PinkCatCape", "BlueCatCape", "BlackCatCape", "None", "HunterCape"
     }
 
     for _, accessory in ipairs(accessories) do
