@@ -572,6 +572,21 @@ FruitTab:AddTextbox({
     end
 })
 
+-- Input for Legendary fruit reward
+FruitTab:AddTextbox({
+    Name = "Mythic Fruit Amount",
+    Default = "1",
+    TextDisappear = true,
+    Callback = function(value)
+        local amount = tonumber(value)
+        if amount then
+            claimReward("Legendary", amount)
+        else
+            warn("Invalid amount entered for Legendary Fruit.")
+        end
+    end
+})
+
 -- Button to eat a fruit
 FruitTab:AddButton({Name = "Control fruit (admin only have)", Callback = function()
     local args = {
