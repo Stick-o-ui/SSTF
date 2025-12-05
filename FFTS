@@ -572,17 +572,17 @@ FruitTab:AddTextbox({
     end
 })
 
--- Input for Legendary fruit reward
+-- Input for Mythical fruit reward
 FruitTab:AddTextbox({
-    Name = "Mythic Fruit Amount",
+    Name = "Mythical Fruit Amount",
     Default = "1",
     TextDisappear = true,
     Callback = function(value)
         local amount = tonumber(value)
         if amount then
-            claimReward("Mythic", amount)
+            claimReward("Mythical", amount)
         else
-            warn("Invalid amount entered for Legendary Fruit.")
+            warn("Invalid amount entered for Mythical Fruit.")
         end
     end
 })
